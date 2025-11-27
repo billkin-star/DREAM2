@@ -58,7 +58,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
 
-  // Envelope parameters
+  // parameters
   G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
   G4Material* bar_mat   = nist->FindOrBuildMaterial("G4_Galactic"); // G4_AIR?
   G4Material* csi_mat   = nist->FindOrBuildMaterial("G4_CESIUM_IODIDE");
@@ -70,8 +70,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   // World
   //
-  G4double world_sizeXY = 2.0*m;
-  G4double world_sizeZ  = 2.0*m;
+  G4double world_sizeXY = 4.0*m;
+  G4double world_sizeZ  = 4.0*m;
 
   auto solidWorld = new G4Box("World_S",                           // its name
     0.5 * world_sizeXY, 0.5 * world_sizeXY, 0.5 * world_sizeZ);  // its size
@@ -151,6 +151,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     }
   }
 
+  fScoringVolume = logicCalo;
   //
   //always return the physical World
   //

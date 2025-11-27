@@ -6,10 +6,10 @@
 /tracking/verbose 1
 
 # 
-# proton 210 MeV to the direction (1.,0.,0.)
+# proton 1 GeV to the direction (1.,0.,0.)
 #
 /gun/particle proton
-/gun/energy 210 MeV
+/gun/energy 1 GeV
 /gun/direction 1 0 0
 
 #

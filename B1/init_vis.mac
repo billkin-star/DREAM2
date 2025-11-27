@@ -12,5 +12,8 @@
 # Initialize kernel
 /run/initialize
 #
+# trajectory 
+#
+#/tracking/storeTrajectory 2
 # Visualization setting
 /control/execute vis.mac
