@@ -1,0 +1,8 @@
+/home/mayn/mygeant4/B2/build/CMakeFiles/B2.dir
+/home/mayn/mygeant4/B2/build/CMakeFiles/B2Target.dir
+/home/mayn/mygeant4/B2/build/CMakeFiles/edit_cache.dir
+/home/mayn/mygeant4/B2/build/CMakeFiles/rebuild_cache.dir
+/home/mayn/mygeant4/B2/build/CMakeFiles/list_install_components.dir
+/home/mayn/mygeant4/B2/build/CMakeFiles/install.dir
+/home/mayn/mygeant4/B2/build/CMakeFiles/install/local.dir
+/home/mayn/mygeant4/B2/build/CMakeFiles/install/strip.dir

@@ -5,6 +5,7 @@
 #define B2EventAction_h 1
 #include "G4UserEventAction.hh"
 #include "globals.hh"
+#include "G4SystemOfUnits.hh"
 
 namespace B2
 {
@@ -31,17 +32,16 @@ class EventAction : public G4UserEventAction
     G4int GetScintPhotonTotal() const { return fScintPhotonTotal; }
     G4int GetCerenkovPhotonTotal() const { return fCerenkovPhotonTotal; }
 
+
   private:
     RunAction* fRunAction = nullptr;  // 指向RunAction，用于传递数据
     G4int fScintPhotonTotal = 0;    // 单个事例闪烁光子总数
     G4int fCerenkovPhotonTotal = 0; // 单个事例切伦科夫光子总数
     const G4double fCollectionEfficiency = 0.9;  // 固定参数（收集效率，也可作为全局参数定义）
+
 };
 
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 #endif
-
 

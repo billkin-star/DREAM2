@@ -40,10 +40,25 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   G4double stepLength = step->GetStepLength(); // 步长长度（切伦科夫光子计算用）
 
   // ====================== 闪烁光子数计算 ======================
+//   if (currentVol == scintVol) {
+//     fEventAction->AddEdep(edep); // 无论能量多小都记录
+
+//     if (edep > 0) {
+//         G4double meanPhotons = edep * fScintillationYield * fCollectionEfficiency;
+//         G4int nPhotons = CLHEP::RandPoisson::shoot(meanPhotons);
+//         if (nPhotons > 0) {
+//             fEventAction->AddScintPhotons(nPhotons);
+//         }
+//     }
+//  }
   if (currentVol == scintVol && edep > 0) // 仅在闪烁光纤内且有能量沉积时计算
   {
     // 步骤1：计算平均光子数
     G4double meanPhotons = edep * fScintillationYield * fCollectionEfficiency;
+    // G4cout << "平均光子数meanPhotons：" << meanPhotons << G4endl; 
+    // G4cout << "当前能量沉积edep（默认MeV）：" << edep << G4endl;
+    // G4cout << "闪烁产额fScintillationYield：" << fScintillationYield << G4endl;
+    // G4cout << "收集效率fCollectionEfficiency：" << fCollectionEfficiency << G4endl;
 
     // 步骤2：泊松抽样得到实际光子数
     G4int nPhotons = CLHEP::RandPoisson::shoot(meanPhotons);
@@ -78,6 +93,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 
     // 步骤4：计算平均光子数（考虑步长长度和收集效率）
     G4double meanPhotons = dNdL * (stepLength / CLHEP::cm) * fCollectionEfficiency;
+    // G4cout << "平均切伦科夫光子数meanPhotons：" << meanPhotons << G4endl; 
 
     // 步骤5：泊松抽样得到实际光子数
     G4int nPhotons = CLHEP::RandPoisson::shoot(meanPhotons);

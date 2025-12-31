@@ -15,6 +15,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4AnalysisManager.hh"
 
 namespace B2
 {
@@ -23,7 +24,18 @@ namespace B2
 
 RunAction::RunAction() : G4UserRunAction()
 {
- 
+  // 关键：启用G4AnalysisManager
+  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+  analysisManager->SetDefaultFileType("root");
+  analysisManager->SetVerboseLevel(1);
+
+  analysisManager->SetNtupleMerging(true); //否则每个 worker 线程都会各自写一个 ROOT 文件
+
+  // 创建Ntuple（对应你的PhotonTree）
+  analysisManager->CreateNtuple("PhotonTree", "闪烁/切伦科夫光子数数据");
+  analysisManager->CreateNtupleIColumn("ScintPhoton");  // 对应ScintPhoton/I
+  analysisManager->CreateNtupleIColumn("CerenkovPhoton");  // 对应CerenkovPhoton/I
+  analysisManager->FinishNtuple();  
 }
 
 
@@ -31,16 +43,25 @@ RunAction::RunAction() : G4UserRunAction()
 
 void RunAction::BeginOfRunAction(const G4Run*)
 {
-  // inform the runManager to save random number seed
+  auto analysisManager = G4AnalysisManager::Instance();
+  analysisManager->OpenFile(); 
+
   G4RunManager::GetRunManager()->SetRandomNumberStore(false);
 
-  // reset accumulables to their initial values
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->Reset();
-  fFile = new TFile("PhotonData.root", "RECREATE");
-  fPhotonTree = new TTree("PhotonTree", "闪烁/切伦科夫光子数数据");
-  fPhotonTree->Branch("ScintPhoton", &fScintPhoton, "ScintPhoton/I");
-  fPhotonTree->Branch("CerenkovPhoton", &fCerenkovPhoton, "CerenkovPhoton/I");
+
+
+  // inform the runManager to save random number seed
+  // G4RunManager::GetRunManager()->SetRandomNumberStore(false);
+
+  // reset accumulables to their initial values
+  // G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
+  // accumulableManager->Reset();
+  // fFile = new TFile("PhotonData.root", "RECREATE");
+  // fPhotonTree = new TTree("PhotonTree", "闪烁/切伦科夫光子数数据");
+  // fPhotonTree->Branch("ScintPhoton", &fScintPhoton, "ScintPhoton/I");
+  // fPhotonTree->Branch("CerenkovPhoton", &fCerenkovPhoton, "CerenkovPhoton/I");
 
 }
 
@@ -48,8 +69,13 @@ void RunAction::BeginOfRunAction(const G4Run*)
 
 void RunAction::EndOfRunAction(const G4Run* run)
 {
-  fPhotonTree->Write();
-  fFile->Close();
+  // 关键：写入并关闭文件（与宏文件/analysis/file/close功能一致）
+  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+  analysisManager->Write();
+  analysisManager->CloseFile();
+
+  // fPhotonTree->Write();
+  // fFile->Close();
 
 }
 

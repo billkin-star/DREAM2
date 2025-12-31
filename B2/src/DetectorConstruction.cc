@@ -40,8 +40,10 @@ const G4int nCerenkovFiber = 4; // 切伦科夫光纤数
 // 阵列参数（避免几何重叠，预留合理间距）
 const G4int RodPerTower = 16;        // 每个tower的铜棒数（16×16）
 const G4int TowerTotal = 16;         // 总tower数，4×4
-const G4double CuRod_spacing = 4.1 * mm;  // 铜棒间距（略大于铜棒边长4mm，防止重叠）
-const G4double Tower_spacing = 66.0 * mm; // tower间距（16×4.1mm≈65.6mm，预留0.4mm间隙）
+const G4double CuRod_spacing = 4.0025 * mm;  // 铜棒间距
+const G4double Tower_spacing = 64.04 * mm; // tower间距
+// const G4double CuRod_spacing = 4.1 * mm;  // 铜棒间距
+// const G4double Tower_spacing = 66* mm; // tower间距
 
 // 封装：创建单根铜棒逻辑体（铜棒+光纤逻辑）
 G4LogicalVolume* DetectorConstruction::CreateSingleCuRodLogical(G4NistManager *nist)
@@ -54,34 +56,32 @@ G4LogicalVolume* DetectorConstruction::CreateSingleCuRodLogical(G4NistManager *n
 
   // 2. 铜棒固体+逻辑体
   G4Box* solidFullRod = new G4Box("CuRod", CuRod_x/2, CuRod_y/2, CuRod_length/2); //BOX参数：长宽高/2
-  
-  // 3. 挖孔
-  G4Tubs* solidHole = new G4Tubs("Hole", 0, CuRod_holeR, CuRod_length/2 + 0.1*mm, 0, 360*deg);//TUBS参数：内半径、外半径、长度/2、起始角度、跨越角度
-  G4SubtractionSolid* solidCuRod = new G4SubtractionSolid(
-      "CuRodWithHole",    // 名称
-      solidFullRod,       // 被减物体（铜棒）
-      solidHole,          // 要减去的物体（孔）
-      0,                  // 旋转矩阵（无旋转）
-      G4ThreeVector(0,0,0) // 位置（中心对齐）
-    );
-  G4LogicalVolume* logicCuRod = new G4LogicalVolume(solidCuRod, Cu, "LogicCuRod");
+  G4LogicalVolume* logicCuRod = new G4LogicalVolume(solidFullRod, Cu, "LogicCuRod");
 
-  // 放置孔洞（空气填充）
-  G4Tubs* solidHoleForPlacement = new G4Tubs("HoleForPlacement", 0, CuRod_holeR, CuRod_length/2, 0, 360*deg);
-  G4LogicalVolume* logicHole = new G4LogicalVolume(solidHoleForPlacement, Air, "LogicHole");
+  // 3. 挖孔
+  G4Tubs* solidHole = new G4Tubs("Hole", 0, CuRod_holeR, CuRod_length/2, 0, 360*deg);//TUBS参数：内半径、外半径、长度/2、起始角度、跨越角度
+  // G4SubtractionSolid* solidCuRod = new G4SubtractionSolid(
+  //     "CuRodWithHole",    // 名称
+  //     solidFullRod,       // 被减物体（铜棒）
+  //     solidHole,          // 要减去的物体（孔）
+  //     0,                  // 旋转矩阵（无旋转）
+  //     G4ThreeVector(0,0,0) // 位置（中心对齐）
+  //   );
+  G4LogicalVolume* logicHole = new G4LogicalVolume(solidHole, Air, "LogicHole");
   new G4PVPlacement(0, G4ThreeVector(0,0,0), logicHole, "PhysHole", logicCuRod, false, 0);
 
+  const G4double rt3_2 = 0.866025 * Fiber_d;
   // 4. 闪烁光纤
   G4Tubs* solidScintFiber = new G4Tubs("ScintFiber", 0, Fiber_d/2, CuRod_length/2, 0, 360*deg);
   G4LogicalVolume* logicScintFiber = new G4LogicalVolume(solidScintFiber, ScintFiber, "LogicScintFiber");
   // 闪烁光纤1：顶部（对应图中上方蓝色S）
-  new G4PVPlacement(0, G4ThreeVector(0, 0.82*mm, 0), 
+  new G4PVPlacement(0, G4ThreeVector(0, 0.8*mm, 0), 
                   logicScintFiber, "PhysScintFiber_0", logicHole, false, 0);
   // 闪烁光纤2：底部左侧（对应图中下方左蓝色）
-  new G4PVPlacement(0, G4ThreeVector(-0.71*mm, -0.41*mm, 0), 
+  new G4PVPlacement(0, G4ThreeVector(-rt3_2, -0.4*mm, 0), 
                   logicScintFiber, "PhysScintFiber_1", logicHole, false, 1);
   // 闪烁光纤3：底部右侧（对应图中下方右蓝色）
-  new G4PVPlacement(0, G4ThreeVector(0.71*mm, -0.41*mm, 0), 
+  new G4PVPlacement(0, G4ThreeVector(rt3_2, -0.4*mm, 0), 
                   logicScintFiber, "PhysScintFiber_2", logicHole, false, 2);
   fScoringVolume = logicScintFiber;
 
@@ -89,16 +89,16 @@ G4LogicalVolume* DetectorConstruction::CreateSingleCuRodLogical(G4NistManager *n
   G4Tubs* solidCerenkovFiber = new G4Tubs("CerenkovFiber", 0, Fiber_d/2, CuRod_length/2, 0, 360*deg);
   G4LogicalVolume* logicCerenkovFiber = new G4LogicalVolume(solidCerenkovFiber, CerenkovFiber, "LogicCerenkovFiber");
   // 光纤0：左侧上方
-  new G4PVPlacement(0, G4ThreeVector(-0.71*mm, 0.41*mm, 0), 
+  new G4PVPlacement(0, G4ThreeVector(-rt3_2, 0.4*mm, 0), 
                     logicCerenkovFiber, "PhysCerenkovFiber_0", logicHole, false, 0);
   // 光纤1：右侧上方
-  new G4PVPlacement(0, G4ThreeVector(0.71*mm, 0.41*mm, 0), 
+  new G4PVPlacement(0, G4ThreeVector(rt3_2, 0.4*mm, 0), 
                     logicCerenkovFiber, "PhysCerenkovFiber_1", logicHole, false, 1);
   // 光纤2：中心
   new G4PVPlacement(0, G4ThreeVector(0*mm, 0*mm, 0), 
                     logicCerenkovFiber, "PhysCerenkovFiber_2", logicHole, false, 2);
   // 光纤3：右侧最右方（下方）
-  new G4PVPlacement(0, G4ThreeVector(0*mm, -0.82*mm, 0), 
+  new G4PVPlacement(0, G4ThreeVector(0*mm, -0.8*mm, 0), 
                     logicCerenkovFiber, "PhysCerenkovFiber_3", logicHole, false, 3);
   fScoringVolumeCerenkov = logicCerenkovFiber;
 

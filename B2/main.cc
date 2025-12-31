@@ -36,8 +36,8 @@ int main(int argc,char** argv)
   // Construct the default run manager
   //
   auto runManager =
-    // G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default); //默认类型
-    G4RunManagerFactory::CreateRunManager(G4RunManagerType::Serial); //单线程
+    G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default); //默认类型
+    // G4RunManagerFactory::CreateRunManager(G4RunManagerType::Serial); //单线程
 
   // Set mandatory initialization classes
   //

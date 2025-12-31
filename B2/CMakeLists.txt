@@ -67,6 +67,7 @@ set(B2_SCRIPTS
   init_vis.mac
   run_all.mac
   vis.mac
+
   )
 
 foreach(_script ${B2_SCRIPTS})
