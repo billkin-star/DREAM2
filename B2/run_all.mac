@@ -7,7 +7,21 @@
 
 /run/initialize 
 
+# ====== 能量点1：20 GeV（完整流程） ======
+/gun/energy 20 GeV
+/analysis/setFileName PhotonData_E20GeV
+/analysis/openFile
+/run/beamOn 1000
+/analysis/closeFile
+/analysis/reset
 
+# ====== 能量点2：40 GeV ======
+/gun/energy 40 GeV
+/analysis/setFileName PhotonData_E40GeV
+/analysis/openFile
+/run/beamOn 1000
+/analysis/closeFile
+/analysis/reset
 
 # ====== 能量点3：80 GeV ======
 /gun/energy 80 GeV 
@@ -56,7 +70,6 @@
 /run/beamOn 1000
 /analysis/closeFile
 /analysis/reset
-
 
 # ====== 退出模拟 ======
 /exit

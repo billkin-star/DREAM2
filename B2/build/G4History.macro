@@ -1,6 +1,7 @@
 /run/verbose 1
 /run/initialize
-/control/execute vis.mac
+/analysis/setFileName PhotonData.root
+/control/execute ./vis.mac
 /vis/open
 /vis/sceneHandler/create OGL
 /vis/viewer/create ! ! 600x600-0+0
@@ -36,36 +37,7 @@
 /vis/viewer/set/autoRefresh true
 /vis/viewer/refresh
 /vis/verbose warnings
-/vis/viewer/set/viewpointThetaPhi 2.04 -19.3 deg
-/vis/viewer/refresh
-/vis/viewer/set/viewpointThetaPhi 2.04 -15 deg
-/vis/viewer/refresh
-/vis/viewer/set/viewpointThetaPhi 2.04 -20 deg
-/vis/viewer/refresh
-/vis/viewer/set/viewpointThetaPhi 5.04 -20 deg
-/vis/viewer/refresh
-/vis/viewer/set/viewpointThetaPhi 0.04 -20 deg
-/vis/viewer/refresh
-/vis/viewer/set/viewpointThetaPhi 0.2 -20 deg
-/vis/viewer/refresh
-/vis/viewer/set/viewpointThetaPhi -0.2 -20 deg
-/vis/viewer/refresh
-/vis/viewer/set/viewpointThetaPhi 1 -20 deg
-/vis/viewer/refresh
-/vis/viewer/set/viewpointThetaPhi 0 -20 deg
-/vis/viewer/refresh
-/vis/viewer/set/viewpointThetaPhi 0 -19 deg
-/vis/viewer/refresh
-/vis/viewer/set/viewpointThetaPhi 0 -10 deg
-/vis/viewer/refresh
-/vis/viewer/set/viewpointThetaPhi 2 0.5 deg
-/vis/viewer/refresh
-/vis/viewer/set/viewpointThetaPhi -2 0.5 deg
-/vis/viewer/refresh
 /run/beamOn 1
 /vis/scene/notifyHandlers scene-0
-/vis/scene/add/axes
-/vis/scene/notifyHandlers
-/vis/scene/add/axes 0 0 -2m
-/vis/scene/add/axes 0 0 -2
-/vis/scene/notifyHandlers
+/analysis/h1/getVector
+/analysis/h2/getVector

@@ -17,7 +17,6 @@
 /vis/viewer/set/style wireframe
 /vis/viewer/set/auxiliaryEdge false
 /vis/viewer/set/lineSegmentsPerCircle 24
-/vis/viewer/add/axes
 
 #
 # Draw smooth trajectories at end of event, showing trajectory points

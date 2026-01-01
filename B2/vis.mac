@@ -11,13 +11,12 @@
 # Specify view angle:
 /vis/viewer/set/viewpointVector 0.035 0.012 0.9993
 /vis/viewer/set/lightsVector 0.035 0.012 0.9993
-
+/vis/viewer/set/viewpointThetaPhi 2.14 18.9 deg
 #
 # Specify style (surface, wireframe, auxiliary edges,...)
 /vis/viewer/set/style wireframe
 /vis/viewer/set/auxiliaryEdge false
 /vis/viewer/set/lineSegmentsPerCircle 24
-/vis/viewer/add/axes
 
 #
 # Draw smooth trajectories at end of event, showing trajectory points

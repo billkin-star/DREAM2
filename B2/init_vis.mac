@@ -9,7 +9,7 @@
 
 #
 # Change the default number of threads (in multi-threaded mode)
-#/run/numberOfThreads 4
+#/run/numberOfThreads 1
 #
 # Initialize kernel
 
@@ -21,4 +21,6 @@
 #/tracking/storeTrajectory 2
 # Visualization setting
 
-/control/execute vis.mac
+/analysis/setFileName PhotonData.root
+
+/control/execute ./vis.mac
