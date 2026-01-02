@@ -27,6 +27,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.22.1/CMakeSystem.cmake"
   "../init_vis.mac"
   "../run_all.mac"
+  "../run_batch.sh"
+  "../single_energy.mac"
   "../vis.mac"
   "/home/mayn/root_v6.32.02/root/cmake/ROOTConfig-targets-release.cmake"
   "/home/mayn/root_v6.32.02/root/cmake/ROOTConfig-targets.cmake"
@@ -121,6 +123,8 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "init_vis.mac"
   "run_all.mac"
   "vis.mac"
+  "run_batch.sh"
+  "single_energy.mac"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 

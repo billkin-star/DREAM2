@@ -67,6 +67,7 @@ set(B2_SCRIPTS
   init_vis.mac
   run_all.mac
   vis.mac
+  run_batch.sh
 
   )
 
